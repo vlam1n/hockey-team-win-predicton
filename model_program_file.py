@@ -8,11 +8,9 @@ from sklearn.metrics import accuracy_score
 
 df = pd.read_excel('data_set.xlsx') #открываем файл с таблицей
 
-teams_list = df['opponent'].unique().tolist() #присваиваем каждой команде свой id
-team_to_id = {team: idx for idx, team in enumerate(teams_list)}
-df['opponent_id'] = df['opponent'].map(team_to_id)
+df_encoded = pd.get_dummies(df, columns=['opponent'], prefix='opp')
 
-df_for_model = df.drop(['date', 'opponent', 'opp_goals_count'], axis=1)
+df_for_model = df_ecoded.drop(['date', 'opp_goals_count'], axis=1)
 
 x = df_for_model.drop(['win(0)/lose(1)'], axis=1)
 y = df_for_model['win(0)/lose(1)']
